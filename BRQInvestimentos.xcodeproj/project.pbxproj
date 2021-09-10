@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE3FAD7F26EBDDC400CF53E6 /* MoedaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FAD7E26EBDDC400CF53E6 /* MoedaTableViewCell.swift */; };
 		CE46339B26EAF7B700D13E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46339A26EAF7B700D13E0F /* AppDelegate.swift */; };
 		CE46339D26EAF7B700D13E0F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46339C26EAF7B700D13E0F /* SceneDelegate.swift */; };
 		CE46339F26EAF7B700D13E0F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46339E26EAF7B700D13E0F /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE3FAD7E26EBDDC400CF53E6 /* MoedaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoedaTableViewCell.swift; sourceTree = "<group>"; };
 		CE46339726EAF7B700D13E0F /* BRQInvestimentos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BRQInvestimentos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE46339A26EAF7B700D13E0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE46339C26EAF7B700D13E0F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				CE4633A326EAF7B900D13E0F /* Assets.xcassets */,
 				CE4633A526EAF7B900D13E0F /* LaunchScreen.storyboard */,
 				CE4633A826EAF7B900D13E0F /* Info.plist */,
+				CE3FAD7E26EBDDC400CF53E6 /* MoedaTableViewCell.swift */,
 			);
 			path = BRQInvestimentos;
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE3FAD7F26EBDDC400CF53E6 /* MoedaTableViewCell.swift in Sources */,
 				CE46339F26EAF7B700D13E0F /* ViewController.swift in Sources */,
 				CE46339B26EAF7B700D13E0F /* AppDelegate.swift in Sources */,
 				CE46339D26EAF7B700D13E0F /* SceneDelegate.swift in Sources */,
