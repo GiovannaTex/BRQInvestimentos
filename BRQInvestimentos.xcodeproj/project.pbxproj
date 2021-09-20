@@ -14,7 +14,9 @@
 		CE4633A226EAF7B700D13E0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE4633A026EAF7B700D13E0F /* Main.storyboard */; };
 		CE4633A426EAF7B900D13E0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4633A326EAF7B900D13E0F /* Assets.xcassets */; };
 		CE4633A726EAF7B900D13E0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE4633A526EAF7B900D13E0F /* LaunchScreen.storyboard */; };
+		CE8D3C9D26F8FFB900015EB5 /* Saldo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D3C9C26F8FFB900015EB5 /* Saldo.swift */; };
 		CE8F27F226EEBBCA00A50732 /* FinanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8F27F126EEBBCA00A50732 /* FinanceData.swift */; };
+		CE9708DE26F03FC50030D336 /* CambioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9708DD26F03FC50030D336 /* CambioViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +29,9 @@
 		CE4633A326EAF7B900D13E0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE4633A626EAF7B900D13E0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE4633A826EAF7B900D13E0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE8D3C9C26F8FFB900015EB5 /* Saldo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saldo.swift; sourceTree = "<group>"; };
 		CE8F27F126EEBBCA00A50732 /* FinanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceData.swift; sourceTree = "<group>"; };
+		CE9708DD26F03FC50030D336 /* CambioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambioViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 				CE4633A826EAF7B900D13E0F /* Info.plist */,
 				CE3FAD7E26EBDDC400CF53E6 /* MoedaTableViewCell.swift */,
 				CE8F27F126EEBBCA00A50732 /* FinanceData.swift */,
+				CE9708DD26F03FC50030D336 /* CambioViewController.swift */,
+				CE8D3C9C26F8FFB900015EB5 /* Saldo.swift */,
 			);
 			path = BRQInvestimentos;
 			sourceTree = "<group>";
@@ -146,6 +152,8 @@
 				CE3FAD7F26EBDDC400CF53E6 /* MoedaTableViewCell.swift in Sources */,
 				CE46339F26EAF7B700D13E0F /* ViewController.swift in Sources */,
 				CE46339B26EAF7B700D13E0F /* AppDelegate.swift in Sources */,
+				CE9708DE26F03FC50030D336 /* CambioViewController.swift in Sources */,
+				CE8D3C9D26F8FFB900015EB5 /* Saldo.swift in Sources */,
 				CE8F27F226EEBBCA00A50732 /* FinanceData.swift in Sources */,
 				CE46339D26EAF7B700D13E0F /* SceneDelegate.swift in Sources */,
 			);

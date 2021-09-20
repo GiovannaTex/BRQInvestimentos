@@ -10,10 +10,11 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     // MARK: Properties
-    var currencies = ["USD", "EUR", "GBP", "ARS", "CAD", "AUD", "JPY", "CNY", "BTC"]
-    var variations = [Double]()
+    var isoMoedas = ["USD", "EUR", "GBP", "ARS", "CAD", "AUD", "JPY", "CNY", "BTC"]
+    var moedas = [Currency]()
     
     let urlString = "https://api.hgbrasil.com/finance?key=ddc1480f"
+    //let urlString = "https://api.hgbrasil.com/finance"
         
     @IBOutlet var tableView: UITableView!
     
@@ -28,66 +29,88 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         title = "Moedas"
         
-        if let url = URL(string: urlString) {
-            if let data = try? Data(contentsOf: url) {
-                parse(json: data)
-            } else {
-                showError()
-            }
-        } else {
-            showError()
-        }
+        carregarMoedas()
     }
     
-    func parse(json: Data) {
-        
-        let decoder = JSONDecoder()
-
-        if let parsedJSON = try? decoder.decode(Entry.self, from: json) {
-            variations.append(parsedJSON.results.currencies.USD.variation)
-            variations.append(parsedJSON.results.currencies.EUR.variation)
-            variations.append(parsedJSON.results.currencies.GBP.variation)
-            variations.append(parsedJSON.results.currencies.ARS.variation)
-            variations.append(parsedJSON.results.currencies.CAD.variation)
-            variations.append(parsedJSON.results.currencies.AUD.variation)
-            variations.append(parsedJSON.results.currencies.JPY.variation)
-            variations.append(parsedJSON.results.currencies.CNY.variation)
-            variations.append(parsedJSON.results.currencies.BTC.variation)
-            
-            print(variations)
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+    func carregarMoedas() {
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return
         }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                let jsonDecoder = JSONDecoder()
+                do {
+                    let parsedJSON = try jsonDecoder.decode(Entry.self, from: data)
+                    
+                    self.moedas.append(parsedJSON.results.currencies.USD)
+                    self.moedas.append(parsedJSON.results.currencies.EUR)
+                    self.moedas.append(parsedJSON.results.currencies.GBP)
+                    self.moedas.append(parsedJSON.results.currencies.ARS)
+                    self.moedas.append(parsedJSON.results.currencies.CAD)
+                    self.moedas.append(parsedJSON.results.currencies.AUD)
+                    self.moedas.append(parsedJSON.results.currencies.JPY)
+                    self.moedas.append(parsedJSON.results.currencies.CNY)
+                    self.moedas.append(parsedJSON.results.currencies.BTC)
+                    
+                    print(self.moedas)
+                        
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currencies.count
+        return isoMoedas.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "moedaCell", for: indexPath) as! MoedaTableViewCell
 
-        cell.moedaLabelView.text = currencies[indexPath.row]
+        // ISO
+        cell.moedaLabelView.text = isoMoedas[indexPath.row]
         
-        if indexPath.row >= 0 && indexPath.row < variations.count {
-            DispatchQueue.main.async {
-                cell.cotacaoLabelView.text = String(format: "%.2f", self.variations[indexPath.row]) + "%"
+        // variação
+        if indexPath.row >= 0 && indexPath.row < moedas.count {
+            
+            let formatoNumeros = NumberFormatter()
+            
+            formatoNumeros.numberStyle = .decimal
+            formatoNumeros.decimalSeparator = ","
+            formatoNumeros.groupingSeparator = "."
+            
+            if let variacao = moedas[indexPath.row].variation as NSNumber? {
+                if var variacaoString = formatoNumeros.string(from: variacao) {
+                    while variacaoString.last == "0" {
+                        variacaoString.removeLast()
+                    }
+                    if variacaoString.last == "," {
+                        variacaoString.removeLast()
+                    }
+                    
+                    cell.cotacaoLabelView.text = variacaoString + "%"
+                }
             }
-        }
-        
-        if variations[indexPath.row] > 0 {
-            cell.cotacaoLabelView.textColor = .green
-        } else if variations[indexPath.row] == 0 {
-            cell.cotacaoLabelView.textColor = .white
-        } else {
-            cell.cotacaoLabelView.textColor = .red
+            
+            if moedas[indexPath.row].variation > 0 {
+                cell.cotacaoLabelView.textColor = .green
+            } else if moedas[indexPath.row].variation == 0 {
+                cell.cotacaoLabelView.textColor = .white
+            } else {
+                cell.cotacaoLabelView.textColor = .red
+            }
         }
         
         cell.moedaView.layer.cornerRadius = 15
         cell.moedaView.layer.borderWidth = 1
         cell.moedaView.layer.borderColor = UIColor.white.cgColor
+        cell.moedaView.layer.masksToBounds = true
         
         return cell
     }
@@ -96,10 +119,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 85
     }
     
-    func showError() {
-        let ac = UIAlertController(title: "Loading error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "cambioVC") as? CambioViewController {
+            vc.isoMoeda = isoMoedas[indexPath.row]
+            vc.moeda = moedas[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
