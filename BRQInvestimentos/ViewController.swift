@@ -9,13 +9,22 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
-    // MARK: Properties
+    // MARK: Propriedades
     var isoMoedas = ["USD", "EUR", "GBP", "ARS", "CAD", "AUD", "JPY", "CNY", "BTC"]
     var moedas = [Currency]()
+    var saldo = Saldo()
     
     let urlString = "https://api.hgbrasil.com/finance?key=ddc1480f"
-    //let urlString = "https://api.hgbrasil.com/finance"
+    
+    let formatoNumeros: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.decimalSeparator = ","
+        formatter.groupingSeparator = "."
+        return formatter
+    }()
         
+    // MARK: Outlets
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -65,7 +74,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }.resume()
     }
-
+    
+    // MARK: TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isoMoedas.count
     }
@@ -79,21 +89,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // variação
         if indexPath.row >= 0 && indexPath.row < moedas.count {
             
-            let formatoNumeros = NumberFormatter()
-            
-            formatoNumeros.numberStyle = .decimal
-            formatoNumeros.decimalSeparator = ","
-            formatoNumeros.groupingSeparator = "."
-            
             if let variacao = moedas[indexPath.row].variation as NSNumber? {
-                if var variacaoString = formatoNumeros.string(from: variacao) {
-                    while variacaoString.last == "0" {
-                        variacaoString.removeLast()
-                    }
-                    if variacaoString.last == "," {
-                        variacaoString.removeLast()
-                    }
-                    
+                if let variacaoString = formatoNumeros.string(from: variacao) {
                     cell.cotacaoLabelView.text = variacaoString + "%"
                 }
             }
@@ -120,10 +117,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "cambioVC") as? CambioViewController {
+        guard let storyboard = storyboard,
+              let nc = navigationController
+        else { return }
+        
+        if let vc = storyboard.instantiateViewController(withIdentifier: "cambioVC") as? CambioViewController {
             vc.isoMoeda = isoMoedas[indexPath.row]
             vc.moeda = moedas[indexPath.row]
-            navigationController?.pushViewController(vc, animated: true)
+            vc.saldo = saldo
+            vc.formatoNumeros = formatoNumeros
+            nc.pushViewController(vc, animated: true)
         }
     }
 }
