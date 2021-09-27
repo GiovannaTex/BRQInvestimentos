@@ -47,6 +47,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE17587127018F040048D5CA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CE46339E26EAF7B700D13E0F /* ViewController.swift */,
+				CE9708DD26F03FC50030D336 /* CambioViewController.swift */,
+				CE8D3C9E26F9536300015EB5 /* TransacaoViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		CE175872270192760048D5CA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CE8F27F126EEBBCA00A50732 /* FinanceData.swift */,
+				CE8D3C9C26F8FFB900015EB5 /* Saldo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CE175873270192B40048D5CA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CE4633A026EAF7B700D13E0F /* Main.storyboard */,
+				CE3FAD7E26EBDDC400CF53E6 /* MoedaTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		CE46338E26EAF7B700D13E0F = {
 			isa = PBXGroup;
 			children = (
@@ -66,18 +94,14 @@
 		CE46339926EAF7B700D13E0F /* BRQInvestimentos */ = {
 			isa = PBXGroup;
 			children = (
+				CE175872270192760048D5CA /* Model */,
+				CE175873270192B40048D5CA /* View */,
+				CE17587127018F040048D5CA /* Controller */,
 				CE46339A26EAF7B700D13E0F /* AppDelegate.swift */,
 				CE46339C26EAF7B700D13E0F /* SceneDelegate.swift */,
-				CE46339E26EAF7B700D13E0F /* ViewController.swift */,
-				CE4633A026EAF7B700D13E0F /* Main.storyboard */,
 				CE4633A326EAF7B900D13E0F /* Assets.xcassets */,
 				CE4633A526EAF7B900D13E0F /* LaunchScreen.storyboard */,
 				CE4633A826EAF7B900D13E0F /* Info.plist */,
-				CE3FAD7E26EBDDC400CF53E6 /* MoedaTableViewCell.swift */,
-				CE8F27F126EEBBCA00A50732 /* FinanceData.swift */,
-				CE9708DD26F03FC50030D336 /* CambioViewController.swift */,
-				CE8D3C9C26F8FFB900015EB5 /* Saldo.swift */,
-				CE8D3C9E26F9536300015EB5 /* TransacaoViewController.swift */,
 			);
 			path = BRQInvestimentos;
 			sourceTree = "<group>";

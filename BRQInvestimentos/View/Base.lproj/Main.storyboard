@@ -262,7 +262,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfa-z1-R1R">
-                                <rect key="frame" x="20" y="323" width="374" height="250"/>
+                                <rect key="frame" x="20" y="279" width="374" height="250"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="PUA-lj-4WE"/>
                                 </constraints>
@@ -289,7 +289,7 @@
                         <viewLayoutGuide key="safeArea" id="sj4-vA-uGu"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="lfa-z1-R1R" firstAttribute="centerY" secondItem="oDI-hk-4Rv" secondAttribute="centerY" id="JTv-Ou-umj"/>
+                            <constraint firstItem="lfa-z1-R1R" firstAttribute="centerY" secondItem="oDI-hk-4Rv" secondAttribute="centerY" constant="-44" id="JTv-Ou-umj"/>
                             <constraint firstItem="sj4-vA-uGu" firstAttribute="bottom" secondItem="Ndw-XP-6pq" secondAttribute="bottom" constant="10" id="aGw-Mf-mbX"/>
                             <constraint firstItem="lfa-z1-R1R" firstAttribute="leading" secondItem="oDI-hk-4Rv" secondAttribute="leadingMargin" id="fyU-OM-EYv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="lfa-z1-R1R" secondAttribute="trailing" id="qbY-ty-ZNp"/>

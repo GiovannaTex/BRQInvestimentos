@@ -16,6 +16,7 @@ class TransacaoViewController: UIViewController {
     // MARK: Propriedades
     var texto = String()
 
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,6 +27,7 @@ class TransacaoViewController: UIViewController {
         homeButton.isEnabled = true
     }
 
+    // MARK: Actions
     @IBAction func homeTapped(_ sender: UIButton) {
         if let nc = navigationController {
             nc.popToRootViewController(animated: true)

@@ -7,20 +7,6 @@
 
 import UIKit
 
-extension UITextField {
-    func definirPadding() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
-        self.leftView = paddingView
-        self.leftViewMode = .always
-    }
-    
-    func definirPlaceholder() {
-        let grayPlaceholderText = NSAttributedString(string: "Quantidade", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            
-        self.attributedPlaceholder = grayPlaceholderText
-    }
-}
-
 class CambioViewController: UIViewController {
     
     // MARK: Outlets
@@ -43,6 +29,7 @@ class CambioViewController: UIViewController {
     var moeda: Currency?
     var formatoNumeros: NumberFormatter?
     
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +42,7 @@ class CambioViewController: UIViewController {
         checarBotoes()
     }
     
+    // MARK: Layout
     func definirBordas() {
         cambioView.layer.cornerRadius = 15
         cambioView.layer.borderWidth = 1
@@ -77,14 +65,15 @@ class CambioViewController: UIViewController {
     
     func definirCorVariacao(_ variacao: Double) {
         if variacao > 0 {
-            variacaoLabel.textColor = .green
+            variacaoLabel.textColor = UIColor(red: 0.494, green: 0.827, blue: 0.129, alpha: 1.0)
         } else if variacao == 0 {
             variacaoLabel.textColor = .white
         } else {
-            variacaoLabel.textColor = .red
+            variacaoLabel.textColor = UIColor(red: 0.815, green: 0.007, blue: 0.105, alpha: 1.0)
         }
     }
     
+    // MARK: Dados
     func carregarMoeda() {
         guard let moeda = moeda,
               let saldo = saldo,
@@ -95,7 +84,7 @@ class CambioViewController: UIViewController {
         // Nome
         nomeLabel.text = "\(isoMoeda) - \(moeda.name)"
                 
-        // variação
+        // Variação
         if let variacao = moeda.variation as NSNumber? {
             if let variacaoString = formatoNumeros.string(from: variacao) {                
                 variacaoLabel.text = variacaoString + "%"
@@ -104,28 +93,28 @@ class CambioViewController: UIViewController {
         
         definirCorVariacao(moeda.variation)
         
-        // compra
+        // Compra
         if let compra = moeda.buy as NSNumber? {
             if let compraString = formatoNumeros.string(from: compra) {
                 compraLabel.text = "Compra: R$ \(compraString)"
             }
         }
         
-        // venda
+        // Venda
         if let venda = moeda.sell as NSNumber? {
             if let vendaString = formatoNumeros.string(from: venda) {
                 vendaLabel.text = "Venda: R$ \(vendaString)"
             }
         }
         
-        // saldo
+        // Saldo
         if let saldoTotal = saldo.saldoTotal as NSNumber? {
             if let saldoString = formatoNumeros.string(from: saldoTotal) {
                 saldoLabel.text = "Saldo disponível: R$ \(saldoString)"
             }
         }
         
-        // caixa
+        // Caixa
         if let caixaMoeda = saldo.caixaMoedas[isoMoeda] as NSNumber? {
             if let caixaString = formatoNumeros.string(from: caixaMoeda) {
                 caixaLabel.text = "\(caixaString) \(moeda.name) em caixa"
@@ -180,11 +169,11 @@ class CambioViewController: UIViewController {
         let totalCompra = saldo.comprar(quantidade: quantidade, iso: isoMoeda, valorCompra: valorCompra)
                 
         let titulo = "Comprar"
-        var texto = "Parabéns!\nVocê acabou de comprar \(quantidade) \(isoMoeda) - \(moeda.name), totalizando R$ \(totalCompra)"
+        var texto = ""
         
         if let totalCompraNS = totalCompra as NSNumber? {
             if let totalCompraString = formatoNumeros.string(from: totalCompraNS) {
-                texto = "Parabéns!\nVocê acabou de vender \(quantidade) \(isoMoeda) - \(moeda.name), totalizando R$ \(totalCompraString)"
+                texto = "Parabéns!\nVocê acabou de comprar \(quantidade) \(isoMoeda) - \(moeda.name), totalizando R$ \(totalCompraString)"
             }
         }
         
@@ -235,16 +224,18 @@ class CambioViewController: UIViewController {
             habilitarBotao(comprarButton)
         }
         
-        if quantidadeText == "" || quantidade == 0 {
+        if quantidadeText == "" || quantidade <= 0 {
             desabilitarBotao(venderButton)
             desabilitarBotao(comprarButton)
         }
     }
 
+    // MARK: TextField
     @IBAction func quantidadeChanged(_ sender: UITextField) {
         checarBotoes()
     }
     
+    // MARK: TransacaoViewController
     func chamarTelaTransacao(titulo: String, texto: String) {
         guard let storyboard = storyboard,
               let nc = navigationController
@@ -255,5 +246,20 @@ class CambioViewController: UIViewController {
             vc.texto = texto
             nc.pushViewController(vc, animated: true)
         }
+    }
+}
+
+// MARK: Extension
+extension UITextField {
+    func definirPadding() {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+    }
+    
+    func definirPlaceholder() {
+        let grayPlaceholderText = NSAttributedString(string: "Quantidade", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            
+        self.attributedPlaceholder = grayPlaceholderText
     }
 }

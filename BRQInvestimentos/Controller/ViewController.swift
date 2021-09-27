@@ -34,13 +34,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         
         tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
         
         title = "Moedas"
         
         carregarMoedas()
     }
     
+    // MARK: Dados
     func carregarMoedas() {
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
@@ -96,11 +96,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
             if moedas[indexPath.row].variation > 0 {
-                cell.cotacaoLabelView.textColor = .green
+                cell.cotacaoLabelView.textColor = UIColor(red: 0.494, green: 0.827, blue: 0.129, alpha: 1.0)
             } else if moedas[indexPath.row].variation == 0 {
                 cell.cotacaoLabelView.textColor = .white
             } else {
-                cell.cotacaoLabelView.textColor = .red
+                cell.cotacaoLabelView.textColor = UIColor(red: 0.815, green: 0.007, blue: 0.105, alpha: 1.0)
             }
         }
         
