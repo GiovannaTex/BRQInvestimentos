@@ -18,6 +18,8 @@
 		CE8D3C9F26F9536300015EB5 /* TransacaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D3C9E26F9536300015EB5 /* TransacaoViewController.swift */; };
 		CE8F27F226EEBBCA00A50732 /* FinanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8F27F126EEBBCA00A50732 /* FinanceData.swift */; };
 		CE9708DE26F03FC50030D336 /* CambioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9708DD26F03FC50030D336 /* CambioViewController.swift */; };
+		CE9CF5682705543D00112FC4 /* LabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CF5672705543D00112FC4 /* LabelExtension.swift */; };
+		CE9CF56A270557B600112FC4 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CF569270557B600112FC4 /* ViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		CE8D3C9E26F9536300015EB5 /* TransacaoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransacaoViewController.swift; sourceTree = "<group>"; };
 		CE8F27F126EEBBCA00A50732 /* FinanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceData.swift; sourceTree = "<group>"; };
 		CE9708DD26F03FC50030D336 /* CambioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambioViewController.swift; sourceTree = "<group>"; };
+		CE9CF5672705543D00112FC4 /* LabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelExtension.swift; sourceTree = "<group>"; };
+		CE9CF569270557B600112FC4 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,8 @@
 				CE46339E26EAF7B700D13E0F /* ViewController.swift */,
 				CE9708DD26F03FC50030D336 /* CambioViewController.swift */,
 				CE8D3C9E26F9536300015EB5 /* TransacaoViewController.swift */,
+				CE9CF5672705543D00112FC4 /* LabelExtension.swift */,
+				CE9CF569270557B600112FC4 /* ViewExtension.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -176,9 +182,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE9CF5682705543D00112FC4 /* LabelExtension.swift in Sources */,
 				CE3FAD7F26EBDDC400CF53E6 /* MoedaTableViewCell.swift in Sources */,
 				CE46339F26EAF7B700D13E0F /* ViewController.swift in Sources */,
 				CE46339B26EAF7B700D13E0F /* AppDelegate.swift in Sources */,
+				CE9CF56A270557B600112FC4 /* ViewExtension.swift in Sources */,
 				CE8D3C9F26F9536300015EB5 /* TransacaoViewController.swift in Sources */,
 				CE9708DE26F03FC50030D336 /* CambioViewController.swift in Sources */,
 				CE8D3C9D26F8FFB900015EB5 /* Saldo.swift in Sources */,

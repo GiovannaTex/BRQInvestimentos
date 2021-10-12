@@ -44,33 +44,15 @@ class CambioViewController: UIViewController {
     
     // MARK: Layout
     func definirBordas() {
-        cambioView.layer.cornerRadius = 15
-        cambioView.layer.borderWidth = 1
-        cambioView.layer.borderColor = UIColor.white.cgColor
-        cambioView.layer.masksToBounds = true
+        cambioView.definirBordaView()
         
-        quantidadeTextField.layer.cornerRadius = 10
-        quantidadeTextField.layer.borderWidth = 1
-        quantidadeTextField.layer.borderColor = UIColor.lightGray.cgColor
-        quantidadeTextField.layer.masksToBounds = true
+        quantidadeTextField.definirBordaTextField()
         quantidadeTextField.definirPadding()
         quantidadeTextField.definirPlaceholder()
         
-        venderButton.layer.cornerRadius = 20
-        venderButton.layer.masksToBounds = true
+        venderButton.definirBordaButton()
                 
-        comprarButton.layer.cornerRadius = 20
-        comprarButton.layer.masksToBounds = true
-    }
-    
-    func definirCorVariacao(_ variacao: Double) {
-        if variacao > 0 {
-            variacaoLabel.textColor = UIColor(red: 0.494, green: 0.827, blue: 0.129, alpha: 1.0)
-        } else if variacao == 0 {
-            variacaoLabel.textColor = .white
-        } else {
-            variacaoLabel.textColor = UIColor(red: 0.815, green: 0.007, blue: 0.105, alpha: 1.0)
-        }
+        comprarButton.definirBordaButton()
     }
     
     // MARK: Dados
@@ -91,7 +73,7 @@ class CambioViewController: UIViewController {
             }
         }
         
-        definirCorVariacao(moeda.variation)
+        variacaoLabel.definirCorVariacao(moeda.variation)
         
         // Compra
         if let compra = moeda.buy as NSNumber? {
@@ -121,65 +103,46 @@ class CambioViewController: UIViewController {
             }
         }
         
-        quantidadeTextField.text = ""
+        quantidadeTextField.text = String()
     }
     
     // MARK: Botões
-    @IBAction func venderTapped(_ sender: UIButton) {
+    @IBAction func botaoPressionado(_ sender: UIButton) {
         guard let moeda = moeda,
               let isoMoeda = isoMoeda,
               let saldo = saldo,
               let quantidadeText = quantidadeTextField.text,
-              let formatoNumeros = formatoNumeros
-        else { return }
-        
-        guard let valorVenda = moeda.sell,
+              let formatoNumeros = formatoNumeros,
+              let valorVenda = moeda.sell,
               let quantidade = Int(quantidadeText)
         else { return }
-                
-        let totalVenda = saldo.vender(quantidade: quantidade, iso: isoMoeda, valorVenda: valorVenda)
+
+        var titulo = String()
+        var texto = String()
+        var transacao = String()
+        var totalTransacao = Double()
         
-        let titulo = "Vender"
-        var texto = ""
-        
-        if let totalVendaNS = totalVenda as NSNumber? {
-            if let totalVendaString = formatoNumeros.string(from: totalVendaNS) {
-                texto = "Parabéns!\nVocê acabou de vender \(quantidade) \(isoMoeda) - \(moeda.name), totalizando R$ \(totalVendaString)"
-            }
+        if sender.tag == 0 {
+            totalTransacao = saldo.vender(quantidade: quantidade, iso: isoMoeda, valorVenda: valorVenda)
+            
+            titulo = "Vender"
+            transacao = "vender"
+
+        } else {
+            let valorCompra = moeda.buy
+            
+            totalTransacao = saldo.comprar(quantidade: quantidade, iso: isoMoeda, valorCompra: valorCompra)
+            
+            titulo = "Comprar"
+            transacao = "comprar"
         }
-                
-        carregarMoeda()
-        checarBotoes()
         
-        chamarTelaTransacao(titulo: titulo, texto: texto)
-    }
-    
-    @IBAction func comprarTapped(_ sender: UIButton) {
-        guard let moeda = moeda,
-              let isoMoeda = isoMoeda,
-              let saldo = saldo,
-              let quantidadeText = quantidadeTextField.text,
-              let formatoNumeros = formatoNumeros
-        else { return }
-        
-        guard let quantidade = Int(quantidadeText) else { return }
-        
-        let valorCompra = moeda.buy
-        
-        let totalCompra = saldo.comprar(quantidade: quantidade, iso: isoMoeda, valorCompra: valorCompra)
-                
-        let titulo = "Comprar"
-        var texto = ""
-        
-        if let totalCompraNS = totalCompra as NSNumber? {
-            if let totalCompraString = formatoNumeros.string(from: totalCompraNS) {
-                texto = "Parabéns!\nVocê acabou de comprar \(quantidade) \(isoMoeda) - \(moeda.name), totalizando R$ \(totalCompraString)"
+        if let totalTransacaoNS = totalTransacao as NSNumber? {
+            if let totalTransacaoString = formatoNumeros.string(from: totalTransacaoNS) {
+                texto = "Parabéns!\nVocê acabou de \(transacao) \(quantidade) \(isoMoeda) - \(moeda.name), totalizando R$ \(totalTransacaoString)"
             }
         }
         
-        carregarMoeda()
-        checarBotoes()
-                
         chamarTelaTransacao(titulo: titulo, texto: texto)
     }
     
@@ -224,10 +187,15 @@ class CambioViewController: UIViewController {
             habilitarBotao(comprarButton)
         }
         
-        if quantidadeText == "" || quantidade <= 0 {
+        if quantidadeText.isEmpty || quantidade <= 0 {
             desabilitarBotao(venderButton)
             desabilitarBotao(comprarButton)
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        carregarMoeda()
+        checarBotoes()
     }
 
     // MARK: TextField
@@ -238,18 +206,18 @@ class CambioViewController: UIViewController {
     // MARK: TransacaoViewController
     func chamarTelaTransacao(titulo: String, texto: String) {
         guard let storyboard = storyboard,
-              let nc = navigationController
+              let navigation = navigationController
         else { return }
         
-        if let vc = storyboard.instantiateViewController(withIdentifier: "transacaoVC") as? TransacaoViewController {
-            vc.title = titulo
-            vc.texto = texto
-            nc.pushViewController(vc, animated: true)
+        if let transacaoVC = storyboard.instantiateViewController(withIdentifier: "transacaoVC") as? TransacaoViewController {
+            transacaoVC.title = titulo
+            transacaoVC.texto = texto
+            navigation.pushViewController(transacaoVC, animated: true)
         }
     }
 }
 
-// MARK: Extension
+// MARK: Extensions
 extension UITextField {
     func definirPadding() {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
@@ -261,5 +229,19 @@ extension UITextField {
         let grayPlaceholderText = NSAttributedString(string: "Quantidade", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
             
         self.attributedPlaceholder = grayPlaceholderText
+    }
+    
+    func definirBordaTextField() {
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.layer.masksToBounds = true
+    }
+}
+
+extension UIButton {
+    func definirBordaButton() {
+        self.layer.cornerRadius = 20
+        self.layer.masksToBounds = true
     }
 }

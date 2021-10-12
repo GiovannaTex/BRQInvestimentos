@@ -192,10 +192,10 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="venderTapped:" destination="oyb-MV-BnM" eventType="touchUpInside" id="jRP-B0-HSk"/>
+                                            <action selector="botaoPressionado:" destination="oyb-MV-BnM" eventType="touchUpInside" id="9ZM-8w-abf"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eK-is-AlF">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eK-is-AlF">
                                         <rect key="frame" x="234" y="0.0" width="140" height="42"/>
                                         <color key="backgroundColor" red="0.23529411759999999" green="0.55294117649999996" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -207,7 +207,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="comprarTapped:" destination="oyb-MV-BnM" eventType="touchUpInside" id="gb2-56-feE"/>
+                                            <action selector="botaoPressionado:" destination="oyb-MV-BnM" eventType="touchUpInside" id="FAE-te-yvc"/>
                                         </connections>
                                     </button>
                                 </subviews>

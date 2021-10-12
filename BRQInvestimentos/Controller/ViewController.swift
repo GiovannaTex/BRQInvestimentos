@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController {
         
     // MARK: Propriedades
     var isoMoedas = ["USD", "EUR", "GBP", "ARS", "CAD", "AUD", "JPY", "CNY", "BTC"]
@@ -23,6 +23,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         formatter.groupingSeparator = "."
         return formatter
     }()
+    
+    let cellHeight: CGFloat = 85
         
     // MARK: Outlets
     @IBOutlet var tableView: UITableView!
@@ -37,11 +39,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         title = "Moedas"
         
+        definirBotaoRefresh()
+        
         carregarMoedas()
     }
     
+    // MARK: Botão Refresh
+    func definirBotaoRefresh() {
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(carregarMoedas))
+        refresh.tintColor = .white
+        
+        navigationItem.rightBarButtonItem = refresh
+    }
+    
     // MARK: Dados
-    func carregarMoedas() {
+    @objc func carregarMoedas() {
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
@@ -64,7 +76,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.moedas.append(parsedJSON.results.currencies.BTC)
                     
                     print(self.moedas)
-                        
+                                            
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
@@ -74,14 +86,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }.resume()
     }
-    
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isoMoedas.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "moedaCell", for: indexPath) as! MoedaTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "moedaCell", for: indexPath) as? MoedaTableViewCell else {
+            return UITableViewCell()
+        }
 
         // ISO
         cell.moedaLabelView.text = isoMoedas[indexPath.row]
@@ -95,38 +111,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             
-            if moedas[indexPath.row].variation > 0 {
-                cell.cotacaoLabelView.textColor = UIColor(red: 0.494, green: 0.827, blue: 0.129, alpha: 1.0)
-            } else if moedas[indexPath.row].variation == 0 {
-                cell.cotacaoLabelView.textColor = .white
-            } else {
-                cell.cotacaoLabelView.textColor = UIColor(red: 0.815, green: 0.007, blue: 0.105, alpha: 1.0)
-            }
+            cell.cotacaoLabelView.definirCorVariacao(moedas[indexPath.row].variation)
         }
         
-        cell.moedaView.layer.cornerRadius = 15
-        cell.moedaView.layer.borderWidth = 1
-        cell.moedaView.layer.borderColor = UIColor.white.cgColor
-        cell.moedaView.layer.masksToBounds = true
+        cell.moedaView.definirBordaView()
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return cellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let storyboard = storyboard,
-              let nc = navigationController
+              let navigation = navigationController
         else { return }
         
-        if let vc = storyboard.instantiateViewController(withIdentifier: "cambioVC") as? CambioViewController {
-            vc.isoMoeda = isoMoedas[indexPath.row]
-            vc.moeda = moedas[indexPath.row]
-            vc.saldo = saldo
-            vc.formatoNumeros = formatoNumeros
-            nc.pushViewController(vc, animated: true)
+        if let cambioVC = storyboard.instantiateViewController(withIdentifier: "cambioVC") as? CambioViewController {
+            cambioVC.isoMoeda = isoMoedas[indexPath.row]
+            cambioVC.moeda = moedas[indexPath.row]
+            cambioVC.saldo = saldo
+            cambioVC.formatoNumeros = formatoNumeros
+            navigation.pushViewController(cambioVC, animated: true)
         }
     }
 }
