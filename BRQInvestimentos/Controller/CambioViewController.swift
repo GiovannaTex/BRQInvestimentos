@@ -104,6 +104,7 @@ class CambioViewController: UIViewController {
         }
         
         quantidadeTextField.text = String()
+        quantidadeTextField.accessibilityHint = "Digite a quantidade"
     }
     
     // MARK: Botões
@@ -113,7 +114,6 @@ class CambioViewController: UIViewController {
               let saldo = saldo,
               let quantidadeText = quantidadeTextField.text,
               let formatoNumeros = formatoNumeros,
-              let valorVenda = moeda.sell,
               let quantidade = Int(quantidadeText)
         else { return }
 
@@ -123,6 +123,8 @@ class CambioViewController: UIViewController {
         var totalTransacao = Double()
         
         if sender.tag == 0 {
+            guard let valorVenda = moeda.sell else { return }
+            
             totalTransacao = saldo.vender(quantidade: quantidade, iso: isoMoeda, valorVenda: valorVenda)
             
             titulo = "Vender"

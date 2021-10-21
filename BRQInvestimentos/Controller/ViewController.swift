@@ -48,6 +48,7 @@ class ViewController: UIViewController {
     func definirBotaoRefresh() {
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(carregarMoedas))
         refresh.tintColor = .white
+        refresh.accessibilityLabel = "Atualizar"
         
         navigationItem.rightBarButtonItem = refresh
     }
@@ -75,7 +76,7 @@ class ViewController: UIViewController {
                     self.moedas.append(parsedJSON.results.currencies.CNY)
                     self.moedas.append(parsedJSON.results.currencies.BTC)
                     
-                    print(self.moedas)
+                    //print(self.moedas)
                                             
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -98,19 +99,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "moedaCell", for: indexPath) as? MoedaTableViewCell else {
             return UITableViewCell()
         }
+        
+        cell.isAccessibilityElement = true
+        cell.accessibilityHint = "Clique para acessar o câmbio"
 
         // ISO
         cell.moedaLabelView.text = isoMoedas[indexPath.row]
         
-        // variação
         if indexPath.row >= 0 && indexPath.row < moedas.count {
             
+            cell.moedaLabelView.accessibilityLabel = moedas[indexPath.row].name
+            
+            // variação
             if let variacao = moedas[indexPath.row].variation as NSNumber? {
                 if let variacaoString = formatoNumeros.string(from: variacao) {
                     cell.cotacaoLabelView.text = variacaoString + "%"
                 }
             }
-            
             cell.cotacaoLabelView.definirCorVariacao(moedas[indexPath.row].variation)
         }
         
